@@ -1,8 +1,18 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Montserrat } from "next/font/google";
 import "./globals.css";
+import "@radix-ui/themes/styles.css";
+import { Theme } from "@radix-ui/themes";
+import Navbar from "./components/header/page";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const montserrat = Montserrat({ 
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
+  subsets: ['latin'],
+  display: 'swap',
+ });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +26,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={montserrat.className}>
+          <Navbar></Navbar>
+          {children}
+      </body>
     </html>
   );
 }
