@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function Navbar() {
   const [state, setState] = useState(false);
+  const { data: session } = useSession();
 
   // Replace # paths with your paths
   const navigation = [
@@ -75,22 +77,39 @@ export default function Navbar() {
             })}
             <span className="hidden w-px h-6 bg-gray-300 md:block"></span>
             <div className="space-y-3 items-center gap-x-6 md:flex md:space-y-0">
-              <li>
-                <Link
-                  href="#"
-                  className="block py-3 text-center text-gray hover:text-gray-500"
-                >
-                  Log in
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="block py-3 px-4 font-medium text-center text-gray hover:text-gray-500"
-                >
-                  Sign up
-                </Link>
-              </li>
+              {session ? (
+                <li>
+                  <Link
+                    href="/api/auth/signout"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      signOut();
+                    }}
+                    className="block py-3 px-4 font-medium text-center text-[#EDEDED] bg-[#171717] hover:bg-[#171717e8] active:bg-[#171717] active:shadow-none rounded-lg shadow md:inline"
+                  >
+                    Log out
+                  </Link>
+                </li>
+              ) : (
+                <>
+                  <li>
+                    <Link
+                      href="/login"
+                      className="block py-3 text-center text-gray hover:text-gray-500 border rounded-lg md:border-none"
+                    >
+                      Log in
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/register"
+                      className="block py-3 px-4 font-medium text-center text-[#EDEDED] bg-[#171717] hover:bg-[#171717e8] active:bg-[#171717] active:shadow-none rounded-lg shadow md:inline"
+                    >
+                      Sign up
+                    </Link>
+                  </li>
+                </>
+              )}
             </div>
           </ul>
         </div>

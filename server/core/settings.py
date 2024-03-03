@@ -1,5 +1,7 @@
 import os
 from pathlib import Path
+import secrets
+import datetime
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -31,8 +33,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Dependencies
     "rest_framework",
+    'rest_framework_simplejwt',
     'corsheaders',
     # Apps
+    "apps.user",
     "apps.chats",
     "apps.transcript"
 ]
@@ -122,3 +126,17 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'user.User'
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': datetime.timedelta(minutes=30),
+    'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,  # Strongly recommended for security
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+    'ENCRYPTION_ALGORITHM': 'HS256',  # Consider using stronger algorithms like RSA or EC
+    'SIGNING_KEY': secrets.token_urlsafe(32),  # Generate a strong, secret key
+    'ALGORITHM': 'HS256',  # Same as ENCRYPTION_ALGORITHM
+}
