@@ -41,7 +41,7 @@ export default function LoginForm() {
               Log in to your account
             </h3>
             <p className="">
-              Don't have an account?{" "}
+              Don't have an account?
               <Link
                 href="#"
                 className="font-medium underline text-gray hover:text-gray-500"
