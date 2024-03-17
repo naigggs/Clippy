@@ -8,7 +8,7 @@ import { jwtDecode } from "jwt-decode";
 async function refreshAccessToken(token: JWT): Promise<JWT | null> {
   try {
     const res = await fetch(
-      `${process.env.DJANGO_AUTH_BASE_URL}/api/v1/user/login/refresh/`,
+      `${process.env.SERVER_URL}/api/v1/user/login/refresh/`,
       {
         method: "POST",
         body: JSON.stringify({ refresh: token.refresh }),
@@ -63,7 +63,7 @@ export const authOptions: AuthOptions = {
         // (i.e., the request IP address)
         try {
           const res = await fetch(
-            `${process.env.DJANGO_AUTH_BASE_URL}/api/v1/user/login/`,
+            `${process.env.SERVER_URL}/api/v1/user/login/`,
             {
               method: "POST",
               body: JSON.stringify(credentials),

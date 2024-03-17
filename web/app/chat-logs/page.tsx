@@ -16,7 +16,7 @@ export default function ChatLogs() {
         // Exit early if session or user_id is not available
         return;
       }
-      const response = await axios.get(`http://127.0.0.1:8000/api/v1/user/chat-logs/${session.user.user_id}/`);
+      const response = await axios.get(`${process.env.SERVER_URL}/api/v1/user/chat-logs/${session.user.user_id}/`);
       setChatLogs(response.data); // Assuming response is an array of chat logs
     } catch (error) {
       console.error("Error fetching chat logs:", error);
