@@ -22,7 +22,7 @@ export default function page({
 const fetchData = async () => {
     try {
         const response = await fetch(
-            `http://127.0.0.1:8000/api/v1/chats/chat/${params.id}`
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/chats/chat/${params.id}`
         );
         if (response.ok) {
            const data = await response.json();

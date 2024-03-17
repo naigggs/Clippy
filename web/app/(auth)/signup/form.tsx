@@ -27,7 +27,7 @@ export default function Component() {
         setIsLoading(true);
         // Example: send form data to the server
         try {
-            const response = await fetch(`${process.env.SERVER_URL}/api/v1/user/register/`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/user/register/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

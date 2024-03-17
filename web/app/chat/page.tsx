@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getSession } from "next-auth/react";
-
+import axios from "axios";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -35,40 +35,38 @@ export default function Chat() {
     checkAuth();
   }, []); 
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  event.preventDefault();
 
-    const link_id = (event.target as HTMLFormElement).link_id.value;
-    const promptValue = (event.target as HTMLFormElement).prompt.value;
-    const session = await getSession();
+  const link_id = (event.target as HTMLFormElement).link_id.value;
+  const promptValue = (event.target as HTMLFormElement).prompt.value;
+  const session = await getSession();
 
-    if (session) {
-      const token = session.access;
-      setLoading(true); // Show loader
-      try {
-        const response = await fetch(
-          `${process.env.SERVER_URL}/api/v1/chats/create/`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`, // Include JWT token in Authorization header
-            },
-            body: JSON.stringify({ link_id, prompt: promptValue }),
-          }
-        );
-        const data = await response.json();
-        setPrompt(promptValue);
-        setResponse(data.response);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false); // Hide loader regardless of success or failure
-      }
-    } else {
-      console.error("User not authenticated");
+  if (session) {
+    const token = session.access;
+    setLoading(true); // Show loader
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/chats/create/`,
+        { link_id, prompt: promptValue },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Include JWT token in Authorization header
+          },
+        }
+      );
+      setPrompt(promptValue);
+      setResponse(response.data.response);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false); // Hide loader regardless of success or failure
     }
-  };
+  } else {
+    console.error("User not authenticated");
+  }
+};
   return (
     <div className="flex justify-center mt-10 ">
       <div className="container mx-auto px-4">

@@ -11,8 +11,6 @@ import { ThemeProvider } from "@/components/theme-provider"
 
 const inter = Inter({ subsets: ["latin"] });
 
-
-
 const montserrat = Montserrat({ 
   weight: ['400', '700'],
   style: ['normal', 'italic'],

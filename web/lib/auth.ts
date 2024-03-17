@@ -8,7 +8,7 @@ import { jwtDecode } from "jwt-decode";
 async function refreshAccessToken(token: JWT): Promise<JWT | null> {
   try {
     const res = await fetch(
-      `${process.env.SERVER_URL}/api/v1/user/login/refresh/`,
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/user/login/refresh/`,
       {
         method: "POST",
         body: JSON.stringify({ refresh: token.refresh }),
