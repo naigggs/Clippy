@@ -16,7 +16,7 @@ class User(AbstractBaseUser):
     first_name = models.CharField(max_length=255, blank=True)
     last_name = models.CharField(max_length=255, blank=True)
     phone = models.CharField(max_length=255, blank=True)
-    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True) 
 
     # Timestamps
     created_at = models.DateTimeField(auto_now_add=True)

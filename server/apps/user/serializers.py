@@ -1,12 +1,17 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+from apps.chats.serializers import ChatSerializer
+from apps.chats.models import Chat
+from rest_framework.response import Response
 from .models import *
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'profile_picture', 'first_name', 'last_name', 'created_at']
+        fields = ['id', 'username', 'email', 'profile_picture', 'first_name', 'last_name', 'created_at',]
+
         
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
@@ -28,6 +33,5 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         else:
             token['created_at'] = None
         token['admin'] = user.admin
-        # Add any other user data you want in the token payload
 
         return token

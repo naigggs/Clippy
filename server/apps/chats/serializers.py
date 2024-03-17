@@ -12,5 +12,6 @@ class ChatSerializer(serializers.ModelSerializer):
             "prompt",
             "message",
             "created_at",
-            "updated_at"
+            "updated_at",
+            'user'
         ]

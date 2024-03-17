@@ -3,10 +3,15 @@ import { Inter, Montserrat } from "next/font/google";
 import "./globals.css";
 import "@radix-ui/themes/styles.css";
 import { getServerSession } from "next-auth";
-import Navbar from "./components/header/page";
+// import Navbar from "./components/header/page";
 import SessionProvider from "@/app/components/nextauth/SessionProvider";
+import Navbar from "@/components/header";
+import { cn } from "@/lib/utils";
+import { ThemeProvider } from "@/components/theme-provider"
 
 const inter = Inter({ subsets: ["latin"] });
+
+
 
 const montserrat = Montserrat({ 
   weight: ['400', '700'],
@@ -32,8 +37,15 @@ export default async function RootLayout({
     <html lang="en">
       <body className={montserrat.className}>
       <SessionProvider session={session}>
+      <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
           <Navbar />
           {children}
+          </ThemeProvider>
       </SessionProvider>
       </body>
     </html>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { Button } from "@/components/ui/button";
 
 export default function LoginForm() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -25,7 +26,7 @@ export default function LoginForm() {
         setIsLoading(false);
         setErrorMessage("Invalid email or password. Please try again.");
       } else {
-        router.push("/");
+        router.push("/chat");
       }
     } catch (error) {
       setIsLoading(false);
@@ -33,19 +34,16 @@ export default function LoginForm() {
     }
   };
   return (
-    <main className="w-full h-screen flex flex-col items-center justify-center px-4 bg-[#EDEDED]">
+    <main className="w-full h-screen flex flex-col items-center justify-center px-4">
       <div className="max-w-sm w-full text-gray">
         <div className="text-center">
           <div className="mt-[-100px] space-y-2">
-            <h3 className="text-[#171717] text-2xl font-bold sm:text-3xl">
+            <h3 className="text-2xl font-bold sm:text-3xl">
               Log in to your account
             </h3>
             <p className="">
-              Don't have an account?
-              <Link
-                href="#"
-                className="font-medium underline text-gray hover:text-gray-500"
-              >
+              Don't have an account? &nbsp;
+              <Link href="/signup" className="font-medium underline">
                 Sign up
               </Link>
             </p>
@@ -58,7 +56,7 @@ export default function LoginForm() {
               type="email"
               name="email"
               required
-              className="w-full mt-2 px-3 py-2 text-gray bg-transparent outline-none border focus:border-gray-600 shadow-sm rounded-lg"
+              className="w-full mt-2 px-3 py-2 bg-transparent outline-none border shadow-sm rounded-lg"
             />
           </div>
           <div>
@@ -67,17 +65,12 @@ export default function LoginForm() {
               type="password"
               name="password"
               required
-              className="w-full mt-2 px-3 py-2 text-gray bg-transparent outline-none border focus:border-gray-600 shadow-sm rounded-lg"
+              className="w-full mt-2 px-3 py-2  bg-transparent outline-none border shadow-sm rounded-lg"
             />
           </div>
-          <button className="w-full px-4 py-2 font-medium text-[#EDEDED] bg-[#171717] hover:bg-[#171717e8] active:bg-[#171717] rounded-lg duration-150">
-          {isLoading ? "Signing in..." : "Sign in"}
-          </button>
-          <div className="text-center">
-            <Link href="#" className="text-gray hover:text-gray-500">
-              Forgot password?
-            </Link>
-          </div>
+          <Button className="w-full px-4 py-2 font-medium rounded-lg duration-150">
+            {isLoading ? "Signing in..." : "Sign in"}
+          </Button>
         </form>
       </div>
     </main>

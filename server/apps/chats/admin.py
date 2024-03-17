@@ -5,11 +5,11 @@ from .models import *
 
 @admin.register(Chat)
 class ChatAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user_id')
-    readonly_fields = ('id', 'created_at', 'updated_at')
+    list_display = ('link_id', 'prompt', 'user_id')
+    readonly_fields = ('link_id', 'id', 'created_at', 'updated_at')
 
     fieldsets = (
-        ('Chat Details', {'fields': ('prompt', 'message')}), (
+        ('Chat Details', {'fields': ('id', 'link_id', 'prompt', 'message', 'user')}), (
             'Timestamps', {'fields': ('created_at', 'updated_at')}
         )
     )

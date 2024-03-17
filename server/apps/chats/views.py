@@ -17,12 +17,15 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from youtube_transcript_api import YouTubeTranscriptApi
 
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 # Google Gemini Key
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 class ChatCreateView(CreateAPIView):
     permission_classes = [AllowAny]
     serializer_class = ChatSerializer
+    authentication_classes = [JWTAuthentication]
 
     def post(self, request, *args, **kwargs):
         try:
@@ -81,20 +84,33 @@ class ChatCreateView(CreateAPIView):
             )
             response = model.generate_content([prompt])
             generated_response = response.text.strip()
+            
+            user = request.user
+            print(f'User: {user}')
+            
+            chat_data = {
+                'link_id': serializer.validated_data['link_id'],
+                'prompt': serializer.validated_data['prompt'],
+                'message': generated_response,
+                'user': user  # Assuming you have authenticated users
+            }
+            chat_instance = Chat.objects.create(**chat_data)
 
             # Return response
-            if isinstance(response, str):
-                return Response({
-                    "status": "error",
-                    "prompt": generated_response,
-                }, status=status.HTTP_400_BAD_REQUEST)
-            else:
-                return Response({
-                    "status": "success",
-                    "response": generated_response,
-                    "message": "Chat created successfully!"
-                }, status=status.HTTP_201_CREATED)
+            return Response({
+                "status": "success",
+                "response": generated_response,
+                "message": "Chat created successfully!"
+            }, status=status.HTTP_201_CREATED)
 
         except Exception as e:
             print(f'Error fetching or saving transcript: {e}')
             return JsonResponse({'error': 'Failed to retrieve or save transcript.'}, status=500)
+
+def getChat(request, chat_id):
+    try:
+        chat = Chat.objects.get(id=chat_id)
+        serializer = ChatSerializer(chat)
+        return JsonResponse(serializer.data, safe=False)
+    except Chat.DoesNotExist:
+        return JsonResponse({'error': 'The chat does not exist'}, status=404)

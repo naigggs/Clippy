@@ -8,7 +8,7 @@ import { jwtDecode } from "jwt-decode";
 async function refreshAccessToken(token: JWT): Promise<JWT | null> {
   try {
     const res = await fetch(
-      `${process.env.DJANGO_AUTH_BASE_URL}/api/user/login/refresh/`,
+      `${process.env.DJANGO_AUTH_BASE_URL}/api/v1/user/login/refresh/`,
       {
         method: "POST",
         body: JSON.stringify({ refresh: token.refresh }),
@@ -35,7 +35,7 @@ async function refreshAccessToken(token: JWT): Promise<JWT | null> {
 }
 
 export const authOptions: AuthOptions = {
-  pages: { signIn: "/login" },
+  pages: { signIn: "/login", },
   session: { strategy: "jwt" },
   // https://next-auth.js.org/configuration/providers/oauth
   providers: [
@@ -86,6 +86,7 @@ export const authOptions: AuthOptions = {
             created_at,
             exp,
             admin,
+
           } = decodedToken;
 
           return {
@@ -100,6 +101,7 @@ export const authOptions: AuthOptions = {
               profile_picture,
               created_at,
               admin,
+
             },
           } as User;
         } catch (error) {
