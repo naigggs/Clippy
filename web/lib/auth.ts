@@ -63,7 +63,7 @@ export const authOptions: AuthOptions = {
         // (i.e., the request IP address)
         try {
           const res = await fetch(
-            `${process.env.SERVER_URL}/api/v1/user/login/`,
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/user/login/`,
             {
               method: "POST",
               body: JSON.stringify(credentials),
