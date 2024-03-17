@@ -34,7 +34,7 @@ export default function Chat() {
     }
     checkAuth();
   }, []); 
-  console.log(process.env.NEXT_PUBLIC_SERVER_URL )
+  
  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
   event.preventDefault();
 
@@ -53,7 +53,7 @@ export default function Chat() {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`, // Include JWT token in Authorization header
-            baseUrl: process.env.NEXT_PUBLIC_SERVER_URL
+            // baseUrl: process.env.NEXT_PUBLIC_SERVER_URL
           },
         }
       );
